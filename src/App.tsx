@@ -3,6 +3,22 @@ import "./App.css";
 import LazyImage from "./components/LazyImage/LazyImage";
 import { data } from "./constant/data";
 
+
+// Function to upload a file
+// const uploadFile = async (file) => {
+//   try {
+//     await Storage.put(file.name, file, {
+//       level: 'public', // Specify access level
+//       contentType: file.type,
+//     });
+//     console.log('File uploaded successfully');
+//   } catch (err) {
+//     console.error('Error uploading file:', err);
+//   }
+// };
+
+
+
 function App() {
   return (
     <div data-test-id="component-app" className="container">
