@@ -1,4 +1,5 @@
 import "./App.css";
+import FileUploader from "./FileLoader";
 
 import LazyImage from "./components/LazyImage/LazyImage";
 import { data } from "./constant/data";
@@ -38,6 +39,7 @@ function App() {
         implement this performance-enhancing feature in your projects and unlock
         the full potential of optimized image loading.
       </p>
+      <FileUploader></FileUploader>
       <div className="flexbox">
         {data.map((item, index) => (
           <LazyImage src={item.src} key={index} />
