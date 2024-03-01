@@ -1,27 +1,38 @@
-import React, { useState, useEffect } from 'react';
 import { uploadData } from 'aws-amplify/storage';
+import { useState, useEffect } from 'react';
 
 const FileUploader = () => {
-  const [files, setFiles] = useState([]);
+  const [file, setFile] = useState()
 
-  const handleFileChange = (event:any) => {
+  const handleFileChange = (event: any) => {
     const file = event.target.files[0];
+    setFile(file)
+  };
+  const handleSubmit = (event: any) => {
+    event.preventDefault()
+    console.log(event);
+    
     if (file) {
       console.log(file);
-      
+
       handleFileUpload(file);
     }
-  };
+  }
 
-  const handleFileUpload = async (file:any) => {
+  const handleFileUpload = async (file: any) => {
     try {
       const result = await uploadData({
         key: file.key,
         data: file,
         options: {
-          accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
-          onProgress: (e) => {
-            console.log(e);
+          accessLevel: 'guest',
+          onProgress: ({ transferredBytes, totalBytes }) => {
+            if (totalBytes) {
+              console.log(
+                `Upload progress ${Math.round((transferredBytes / totalBytes) * 100)
+                } %`
+              );
+            }
           }
         }
       }).result;
@@ -32,14 +43,10 @@ const FileUploader = () => {
   };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <input type="file" onChange={handleFileChange} />
-      <div>
-        {files.map((file, index) => (
-          <div key={index}>{file.key}</div>
-        ))}
-      </div>
-    </div>
+      <input type="submit" value="Submit" />
+    </form>
   );
 };
 
