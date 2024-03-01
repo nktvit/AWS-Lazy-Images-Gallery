@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Storage from '@aws-amplify/storage';
-
-
+import { Storage } from 'aws-amplify';
 
 const FileUploader = () => {
   const [files, setFiles] = useState([]);
