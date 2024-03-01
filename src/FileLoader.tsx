@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Storage } from 'aws-amplify';
+import { uploadData } from 'aws-amplify/storage';
 
 const FileUploader = () => {
   const [files, setFiles] = useState([]);
 
-  useEffect(() => {
-    listFiles();
-  }, []);
-
   const handleFileChange = (event:any) => {
     const file = event.target.files[0];
     if (file) {
+      console.log(file);
+      
       handleFileUpload(file);
     }
   };
 
   const handleFileUpload = async (file:any) => {
     try {
-      const response = await Storage.put(file.name, file, {
-        contentType: file.type,
-      });
-      console.log(response);
-      // Optionally, fetch the list of files from S3 to update the UI
-      listFiles();
+      const result = await uploadData({
+        key: file.key,
+        data: file,
+        options: {
+          accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
+          onProgress: (e) => {
+            console.log(e);
+          }
+        }
+      }).result;
+      console.log('Succeeded: ', result);
     } catch (error) {
-      console.error('Error uploading file: ', error);
+      console.log('Error : ', error);
     }
   };
 
