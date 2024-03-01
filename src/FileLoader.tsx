@@ -31,16 +31,6 @@ const FileUploader = () => {
     }
   };
 
-  const listFiles = async () => {
-    try {
-      const files = await Storage.list('');
-      console.log(files);
-      // Update your state/UI with this files array
-    } catch (error) {
-      console.error('Error fetching files: ', error);
-    }
-  };
-
   return (
     <div>
       <input type="file" onChange={handleFileChange} />
